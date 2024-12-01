@@ -27,7 +27,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "users")
-public class UserModel extends Auditable implements Serializable{
+public class UserModel extends Auditable implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -40,7 +40,7 @@ public class UserModel extends Auditable implements Serializable{
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  private Set<OrdersModel> orders= new HashSet<>();
+  private Set<OrdersModel> orders = new HashSet<>();
 
   @Column(nullable = false)
   private String nome;
@@ -61,5 +61,18 @@ public class UserModel extends Auditable implements Serializable{
   private String dataNascimento;
 
   private String telefone;
+
+  @Override
+  public String toString() {
+    return "UserModel{" +
+        "id=" + id +
+        ", nome='" + nome + '\'' +
+        ", cpf='" + cpf + '\'' +
+        ", sexo='" + sexo + '\'' +
+        ", email='" + email + '\'' +
+        ", dataNascimento='" + dataNascimento + '\'' +
+        ", telefone='" + telefone + '\'' +
+        '}';
+  }
 
 }
