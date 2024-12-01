@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.clienteservidor.animeserver.animeserver.dao.UserDAOImpl;
+import com.clienteservidor.animeserver.animeserver.dao.userdao.UserDAOImpl;
 import com.clienteservidor.animeserver.animeserver.models.UserModel;
 
 import jakarta.persistence.EntityManager;

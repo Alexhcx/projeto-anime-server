@@ -1,4 +1,4 @@
-package com.clienteservidor.animeserver.animeserver.dao;
+package com.clienteservidor.animeserver.animeserver.dao.userdao;
 
 import java.util.List;
 import java.util.Optional;

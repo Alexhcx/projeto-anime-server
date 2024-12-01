@@ -1,4 +1,4 @@
-package com.clienteservidor.animeserver.animeserver.dao;
+package com.clienteservidor.animeserver.animeserver.dao.userdao;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +9,10 @@ import com.clienteservidor.animeserver.animeserver.models.UserModel;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+// import jakarta.transaction.Transactional;
 
 @Repository
-@Transactional
+// @Transactional
 public class UserDAOImpl implements UsersDAO {
 
     @PersistenceContext

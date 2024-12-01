@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.clienteservidor.animeserver.animeserver.dao.UserDAOImpl;
+import com.clienteservidor.animeserver.animeserver.dao.userdao.UserDAOImpl;
 import com.clienteservidor.animeserver.animeserver.models.UserModel;
 import org.springframework.context.ApplicationContext;
 
