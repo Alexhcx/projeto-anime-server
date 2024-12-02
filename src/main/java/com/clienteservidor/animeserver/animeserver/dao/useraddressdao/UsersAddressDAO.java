@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import com.clienteservidor.animeserver.animeserver.models.UsersAddressModel;
 
-public interface UsersAddressDAO {
+public interface UsersAddressDAO  {
     // Create
     UsersAddressModel save(UsersAddressModel userAddress);
 
     // Read
     Optional<UsersAddressModel> findById(Long id);
-    Optional<UsersAddressModel> findByUserId(Long userId);
+    List<UsersAddressModel> findByUserId(Long userId);
     List<UsersAddressModel> findByCep(String cep);
     List<UsersAddressModel> findByCidade(String cidade);
     List<UsersAddressModel> findByEstado(String estado);

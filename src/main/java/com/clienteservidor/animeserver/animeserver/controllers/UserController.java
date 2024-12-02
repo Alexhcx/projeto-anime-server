@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UsersService userService;
 
-    @PostMapping
+    @PostMapping("/post")
     public ResponseEntity<UserModel> cadastrarUsuario(@RequestBody UserModel user) {
         try {
             UserModel createdUser = userService.cadastrarUsuario(user);
@@ -29,7 +29,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<UserModel> buscarUsuarioPorId(@PathVariable Long id) {
         try {
             UserModel user = userService.buscarUsuarioPorId(id);
@@ -40,7 +40,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/put/{id}")
     public ResponseEntity<UserModel> atualizarInfoUsuario(@PathVariable Long id, @RequestBody UserModel user) {
         try {
             UserModel updatedUser = userService.atualizarInfoUsuario(id, user);
@@ -50,7 +50,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
         try {
             userService.deletarUsuario(id);
@@ -60,7 +60,7 @@ public class UserController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/get/all")
     public List<UserModel> mostrarTodosOsUsuarios() {
         return userService.mostrarTodosOsUsuarios();
     }

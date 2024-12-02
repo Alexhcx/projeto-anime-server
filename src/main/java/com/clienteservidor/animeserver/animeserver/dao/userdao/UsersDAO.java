@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.clienteservidor.animeserver.animeserver.models.UserModel;
 
-public interface UsersDAO {
+public interface UsersDAO  {
 
     // Create
     UserModel save(UserModel user);

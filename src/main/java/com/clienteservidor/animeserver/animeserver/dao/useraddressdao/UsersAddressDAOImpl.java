@@ -3,11 +3,14 @@ package com.clienteservidor.animeserver.animeserver.dao.useraddressdao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.clienteservidor.animeserver.animeserver.models.UsersAddressModel;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+@Repository
 public class UsersAddressDAOImpl implements UsersAddressDAO {
 
   @PersistenceContext
@@ -25,12 +28,11 @@ public class UsersAddressDAOImpl implements UsersAddressDAO {
   }
 
   @Override
-  public Optional<UsersAddressModel> findByUserId(Long userId) {
-    return entityManager
-        .createQuery("SELECT u FROM UsersAddressModel u WHERE u.user_id = :user_id", UsersAddressModel.class)
-        .setParameter("user_id", userId)
-        .getResultStream()
-        .findFirst();
+  public List<UsersAddressModel> findByUserId(Long userId) {
+    return entityManager.createQuery(
+        "SELECT ua FROM UsersAddressModel ua WHERE ua.user.id = :userId", UsersAddressModel.class)
+        .setParameter("userId", userId)
+        .getResultList(); // Usar getResultList() para retornar todos os resultados
   }
 
   @Override
@@ -42,14 +44,16 @@ public class UsersAddressDAOImpl implements UsersAddressDAO {
 
   @Override
   public List<UsersAddressModel> findByCidade(String cidade) {
-    return entityManager.createQuery("SELECT u FROM UsersAddressModel u WHERE u.cidade = :cidade", UsersAddressModel.class)
+    return entityManager
+        .createQuery("SELECT u FROM UsersAddressModel u WHERE u.cidade = :cidade", UsersAddressModel.class)
         .setParameter("cidade", cidade)
         .getResultList();
   }
 
   @Override
   public List<UsersAddressModel> findByEstado(String estado) {
-    return entityManager.createQuery("SELECT u FROM UsersAddressModel u WHERE u.estado = :estado", UsersAddressModel.class)
+    return entityManager
+        .createQuery("SELECT u FROM UsersAddressModel u WHERE u.estado = :estado", UsersAddressModel.class)
         .setParameter("estado", estado)
         .getResultList();
   }
