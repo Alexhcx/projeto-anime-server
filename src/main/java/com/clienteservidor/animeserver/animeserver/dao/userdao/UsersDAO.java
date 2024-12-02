@@ -12,9 +12,13 @@ public interface UsersDAO {
 
     // Read
     Optional<UserModel> findById(Long id);
+
     Optional<UserModel> findByName(String name);
+
     Optional<UserModel> findByEmail(String email);
+
     Optional<UserModel> findByCPF(String CPF);
+
     List<UserModel> findAll();
 
     // Update
