@@ -1,7 +1,7 @@
 package com.clienteservidor.animeserver.animeserver.services;
 
-import com.clienteservidor.animeserver.animeserver.dao.employeeaddressdao.EmployeeAddressDAO;
-import com.clienteservidor.animeserver.animeserver.dao.employeedao.EmployeeDAO;
+import com.clienteservidor.animeserver.animeserver.dao.EmployeeAddressDAO;
+import com.clienteservidor.animeserver.animeserver.dao.EmployeeDAO;
 import com.clienteservidor.animeserver.animeserver.models.EmployeeAddressModel;
 import com.clienteservidor.animeserver.animeserver.models.EmployeeModel;
 
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeAddressService {
@@ -31,12 +30,10 @@ public class EmployeeAddressService {
     if (endereco == null) {
       throw new IllegalArgumentException("O endereço não pode ser nulo.");
     }
+    // ... outras validações (campos obrigatórios, formato do CEP, etc.) ...
 
-    Optional<EmployeeModel> employeeOptional = employeeDAO.findById(employeeId);
-    if (employeeOptional.isEmpty()) {
-      throw new EntityNotFoundException("Funcionário não encontrado com o ID: " + employeeId);
-    }
-    EmployeeModel employee = employeeOptional.get();
+    EmployeeModel employee = employeeDAO.findById(employeeId)
+        .orElseThrow(() -> new EntityNotFoundException("Funcionário não encontrado com o ID: " + employeeId));
 
     endereco.setEmployee(employee);
 
@@ -44,30 +41,16 @@ public class EmployeeAddressService {
   }
 
   @Transactional
-  public EmployeeAddressModel atualizarEnderecoFuncionario(Long enderecoId, EmployeeAddressModel endereco) {
-    if (enderecoId == null) {
-      throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
-    }
+  public EmployeeAddressModel atualizarEnderecoFuncionario(EmployeeAddressModel endereco) {
     if (endereco == null) {
       throw new IllegalArgumentException("O endereço não pode ser nulo.");
     }
-
-    Optional<EmployeeAddressModel> existingAddress = employeeAddressDAO.findById(enderecoId);
-    if (existingAddress.isEmpty()) {
-      throw new EntityNotFoundException("Endereço não encontrado com o ID: " + enderecoId);
+    if (endereco.getId() == null) {
+      throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
     }
+    // ... outras validações ...
 
-    EmployeeAddressModel addressToUpdate = existingAddress.get();
-    addressToUpdate.setCep(endereco.getCep());
-    addressToUpdate.setLogradouro(endereco.getLogradouro());
-    addressToUpdate.setNumero(endereco.getNumero());
-    addressToUpdate.setComplemento(endereco.getComplemento());
-    addressToUpdate.setBairro(endereco.getBairro());
-    addressToUpdate.setCidade(endereco.getCidade());
-    addressToUpdate.setEstado(endereco.getEstado());
-    addressToUpdate.setReferencia(endereco.getReferencia());
-
-    return employeeAddressDAO.update(addressToUpdate);
+    return employeeAddressDAO.save(endereco); // Usando o método save do JpaRepository para atualizar
   }
 
   @Transactional
@@ -84,7 +67,7 @@ public class EmployeeAddressService {
       throw new IllegalArgumentException("O ID do funcionário não pode ser nulo.");
     }
 
-    return employeeAddressDAO.findByUserId(employeeId).stream().toList();
+    return employeeAddressDAO.findByEmployeeId(employeeId).stream().toList();
   }
 
   public List<EmployeeAddressModel> listarEnderecosPorCep(String cep) {

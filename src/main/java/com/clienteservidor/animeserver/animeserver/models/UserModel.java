@@ -7,6 +7,7 @@ import java.util.Set;
 import com.clienteservidor.animeserver.animeserver.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,7 +36,7 @@ public class UserModel extends Auditable implements Serializable {
   private Long id;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<UsersAddressModel> address = new HashSet<>();
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

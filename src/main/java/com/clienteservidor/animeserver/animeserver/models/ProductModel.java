@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 // import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "products")
-
 public class ProductModel extends Auditable implements Serializable {
 
   private static final long serialVersionUID = 1L;

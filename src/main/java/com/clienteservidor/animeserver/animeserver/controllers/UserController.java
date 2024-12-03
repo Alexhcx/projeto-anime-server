@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UsersService userService;
 
-    @PostMapping("/post")
+    @PostMapping
     public ResponseEntity<UserModel> cadastrarUsuario(@RequestBody UserModel user) {
         try {
             UserModel createdUser = userService.cadastrarUsuario(user);
@@ -29,7 +29,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserModel> buscarUsuarioPorId(@PathVariable Long id) {
         try {
             UserModel user = userService.buscarUsuarioPorId(id);
@@ -39,18 +39,18 @@ public class UserController {
         }
     }
 
-
-    @PutMapping("/put/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserModel> atualizarInfoUsuario(@PathVariable Long id, @RequestBody UserModel user) {
         try {
-            UserModel updatedUser = userService.atualizarInfoUsuario(id, user);
+            user.setId(id); // Definir o ID do usuário antes de atualizar
+            UserModel updatedUser = userService.atualizarInfoUsuario(user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
         try {
             userService.deletarUsuario(id);
@@ -60,7 +60,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/all")
+    @GetMapping
     public List<UserModel> mostrarTodosOsUsuarios() {
         return userService.mostrarTodosOsUsuarios();
     }

@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.clienteservidor.animeserver.animeserver.dao.useraddressdao.UsersAddressDAO;
-import com.clienteservidor.animeserver.animeserver.dao.userdao.UsersDAO;
+import com.clienteservidor.animeserver.animeserver.dao.UsersAddressDAO;
+import com.clienteservidor.animeserver.animeserver.dao.UsersDAO;
 import com.clienteservidor.animeserver.animeserver.models.UserModel;
 import com.clienteservidor.animeserver.animeserver.models.UsersAddressModel;
 
@@ -35,11 +35,8 @@ public class UsersAddressService {
     // ... outras validações (campos obrigatórios, formato do CEP, etc.) ...
 
     // Buscar o usuário
-    Optional<UserModel> userOptional = usersDAO.findById(userId);
-    if (userOptional.isEmpty()) {
-      throw new EntityNotFoundException("Usuário não encontrado com o ID: " + userId);
-    }
-    UserModel user = userOptional.get();
+    UserModel user = usersDAO.findById(userId)
+        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
 
     // Associar o endereço ao usuário
     endereco.setUser(user);
@@ -48,33 +45,17 @@ public class UsersAddressService {
   }
 
   @Transactional
-  public UsersAddressModel atualizarEndereco(Long enderecoId, UsersAddressModel endereco) {
+  public UsersAddressModel atualizarEndereco(UsersAddressModel endereco) {
     // Validações
-    if (enderecoId == null) {
-      throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
-    }
     if (endereco == null) {
       throw new IllegalArgumentException("O endereço não pode ser nulo.");
     }
+    if (endereco.getId() == null) {
+      throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
+    }
     // ... outras validações ...
 
-    Optional<UsersAddressModel> existingAddress = usersAddressDAO.findById(enderecoId);
-    if (existingAddress.isEmpty()) {
-      throw new EntityNotFoundException("Endereço não encontrado com o ID: " + enderecoId);
-    }
-
-    // Atualizar os dados do endereço existente
-    UsersAddressModel addressToUpdate = existingAddress.get();
-    addressToUpdate.setBairro(endereco.getBairro());
-    addressToUpdate.setCep(endereco.getCep());
-    addressToUpdate.setCidade(endereco.getCidade());
-    addressToUpdate.setComplemento(endereco.getComplemento());
-    addressToUpdate.setEstado(endereco.getEstado());
-    addressToUpdate.setLogradouro(endereco.getLogradouro());
-    addressToUpdate.setNumero(endereco.getNumero());
-    addressToUpdate.setReferencia(endereco.getReferencia());
-
-    return usersAddressDAO.update(addressToUpdate);
+    return usersAddressDAO.save(endereco); // Usando o método save do JpaRepository para atualizar
   }
 
   @Transactional
@@ -90,11 +71,11 @@ public class UsersAddressService {
   public List<UsersAddressModel> listarEnderecosDoUsuario(Long userId) {
     // Validações
     if (userId == null) {
-        throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
+      throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
     }
 
-    return usersAddressDAO.findByUserId(userId); // Agora retorna uma lista diretamente
-}
+    return usersAddressDAO.findByUserId(userId);
+  }
 
   public List<UsersAddressModel> listarEnderecosPorCep(String cep) {
     return usersAddressDAO.findByCep(cep);

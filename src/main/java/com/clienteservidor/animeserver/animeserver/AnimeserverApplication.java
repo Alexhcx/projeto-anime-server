@@ -1,13 +1,15 @@
 package com.clienteservidor.animeserver.animeserver;
 
-import java.util.Optional;
-
 import org.springframework.boot.SpringApplication;
+
+// import java.util.Optional;
+
+// import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.clienteservidor.animeserver.animeserver.dao.userdao.UserDAOImpl;
-import com.clienteservidor.animeserver.animeserver.models.UserModel;
+// import com.clienteservidor.animeserver.animeserver.dao.userdao.UserDAOImpl;
+// import com.clienteservidor.animeserver.animeserver.models.UserModel;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
