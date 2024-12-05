@@ -1,0 +1,54 @@
+INSERT INTO users (nome, cpf, sexo, email, password, dataNascimento, telefone, created_at, updated_at) VALUES
+('João Silva', '12345678901', 'M', 'joao.silva@gmail.com', 'Joao1234', '1990-01-15', '11987654321', NOW(), NOW()),
+('Maria Oliveira', '98765432109', 'F', 'maria.oliveira@outlook.com', 'Maria1234', '1985-05-20', '21976543210', NOW(), NOW()),
+('Pedro Santos', '54321098765', 'M', 'pedro.santos@gmail.com', 'Pedro1234', '1992-08-10', '31965432109', NOW(), NOW()),
+('Ana Souza', '10987654321', 'F', 'ana.souza@outlook.com', 'Ana1234', '1988-11-25', '41954321098', NOW(), NOW()),
+('Lucas Pereira', '76543210987', 'M', 'lucas.pereira@gmail.com', 'Lucas1234', '1995-03-05', '51943210987', NOW(), NOW()),
+('Bruna Almeida', '32109876543', 'F', 'bruna.almeida@outlook.com', 'Bruna1234', '1980-07-18', '61932109876', NOW(), NOW()),
+('Rafael Costa', '87654321098', 'M', 'rafael.costa@gmail.com', 'Rafael1234', '1998-12-30', '71921098765', NOW(), NOW()),
+('Juliana Rodrigues', '43210987654', 'F', 'juliana.rodrigues@outlook.com', 'Juliana1234', '1983-04-12', '81910987654', NOW(), NOW()),
+('Gustavo Lima', '09876543210', 'M', 'gustavo.lima@gmail.com', 'Gustavo1234', '1991-09-08', '91909876543', NOW(), NOW()),
+('Fernanda Castro', '65432109876', 'F', 'fernanda.castro@outlook.com', 'Fernanda1234', '1987-06-22', '01987654321', NOW(), NOW());
+
+-- Inserção dos endereços no PostgreSQL
+INSERT INTO address (created_at, updated_at, user_id, cep, logradouro, bairro, cidade, estado, numero, complemento, referencia)
+VALUES
+-- João Silva
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 6, '01001-000', 'Rua dos Andradas', 'Centro', 'São Paulo', 'SP', '123', 'Apto 45', 'Próximo à estação Sé'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 6, '02002-001', 'Avenida Paulista', 'Bela Vista', 'São Paulo', 'SP', '567', 'Sala 203', 'Edifício São Luiz'),
+
+-- Maria Oliveira
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 7, '20040-010', 'Rua da Assembleia', 'Centro', 'Rio de Janeiro', 'RJ', '789', 'Cobertura', 'Próximo ao Teatro Municipal'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 7, '20230-015', 'Avenida Presidente Vargas', 'Cidade Nova', 'Rio de Janeiro', 'RJ', '1234', 'Sala 101', 'Edifício Central'),
+
+-- Pedro Santos
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 8, '30110-000', 'Rua da Bahia', 'Lourdes', 'Belo Horizonte', 'MG', '456', 'Casa', 'Ao lado da praça da Liberdade'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 8, '31120-210', 'Avenida Cristiano Machado', 'Sagrada Família', 'Belo Horizonte', 'MG', '321', 'Galpão', 'Próximo ao metrô'),
+
+-- Ana Souza
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 9, '40026-010', 'Rua Chile', 'Pelourinho', 'Salvador', 'BA', '258', 'Loja 3', 'Perto do Elevador Lacerda'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 9, '41720-110', 'Avenida Paralela', 'Pituba', 'Salvador', 'BA', '852', 'Bloco B', 'Condomínio Tropicália'),
+
+-- Lucas Pereira
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 10, '90510-001', 'Rua Padre Chagas', 'Moinhos de Vento', 'Porto Alegre', 'RS', '789', 'Cobertura 2', 'Próximo ao Parcão'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 10, '91320-230', 'Avenida Protásio Alves', 'Petrópolis', 'Porto Alegre', 'RS', '678', 'Sala 408', 'Edifício Petrópolis'),
+
+-- Bruna Almeida
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 11, '60025-000', 'Rua Dragão do Mar', 'Praia de Iracema', 'Fortaleza', 'CE', '456', 'Casa', 'Ao lado do Centro Dragão do Mar'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 11, '60150-120', 'Avenida Santos Dumont', 'Aldeota', 'Fortaleza', 'CE', '123', 'Apto 908', 'Próximo ao Shopping Del Paseo'),
+
+-- Rafael Costa
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 12, '69909-000', 'Rua Isaura Parente', 'Bosque', 'Rio Branco', 'AC', '321', 'Casa', 'Perto da Praça da Revolução'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 12, '69915-230', 'Avenida Ceará', 'Estação Experimental', 'Rio Branco', 'AC', '654', 'Bloco C', 'Condomínio Floresta'),
+
+-- Juliana Rodrigues
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 13, '78005-420', 'Rua Barão de Melgaço', 'Centro', 'Cuiabá', 'MT', '987', 'Cobertura', 'Ao lado da Igreja Matriz'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 13, '78110-000', 'Avenida Fernando Corrêa', 'Boa Esperança', 'Cuiabá', 'MT', '369', 'Sala 305', 'Edifício Cidade Verde'),
+
+-- Gustavo Lima
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 14, '70320-020', 'SQS 302', 'Asa Sul', 'Brasília', 'DF', '456', 'Bloco C', 'Próximo ao Parque da Cidade'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 14, '71530-010', 'Avenida das Nações', 'Lago Norte', 'Brasília', 'DF', '123', 'Casa 12', 'Condomínio das Palmeiras'),
+
+-- Fernanda Castro
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 15, '88015-200', 'Rua Conselheiro Mafra', 'Centro', 'Florianópolis', 'SC', '852', 'Sala 401', 'Próximo ao Mercado Público'),
+('2024-12-04 08:18:04.915868', '2024-12-04 08:18:04.915868', 15, '88040-210', 'Avenida Beira Mar Norte', 'Trindade', 'Florianópolis', 'SC', '963', 'Cobertura', 'De frente para o mar');

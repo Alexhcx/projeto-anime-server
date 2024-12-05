@@ -5,7 +5,6 @@ import java.io.Serializable;
 import com.clienteservidor.animeserver.animeserver.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

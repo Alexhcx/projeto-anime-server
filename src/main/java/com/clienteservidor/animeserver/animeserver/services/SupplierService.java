@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.clienteservidor.animeserver.animeserver.dao.SuppliersDAO;
-import com.clienteservidor.animeserver.animeserver.models.ProductModel;
 import com.clienteservidor.animeserver.animeserver.models.SupplierModel;
 
 import jakarta.persistence.EntityNotFoundException;

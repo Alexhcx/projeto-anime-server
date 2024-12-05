@@ -1,6 +1,5 @@
 package com.clienteservidor.animeserver.animeserver.dao;
 
-import com.clienteservidor.animeserver.animeserver.models.ProductModel;
 import com.clienteservidor.animeserver.animeserver.models.SupplierModel;
 import java.util.List;
 import java.util.Optional;

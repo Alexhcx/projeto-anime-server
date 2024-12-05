@@ -1,7 +1,6 @@
 package com.clienteservidor.animeserver.animeserver.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,24 +20,20 @@ public class UsersAddressService {
   private UsersAddressDAO usersAddressDAO;
 
   @Autowired
-  private UsersDAO usersDAO; // Para acessar os dados do usuário
+  private UsersDAO usersDAO;
 
   @Transactional
   public UsersAddressModel criarEndereco(Long userId, UsersAddressModel endereco) {
-    // Validações
+
     if (userId == null) {
       throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
     }
     if (endereco == null) {
       throw new IllegalArgumentException("O endereço não pode ser nulo.");
     }
-    // ... outras validações (campos obrigatórios, formato do CEP, etc.) ...
-
-    // Buscar o usuário
     UserModel user = usersDAO.findById(userId)
         .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
 
-    // Associar o endereço ao usuário
     endereco.setUser(user);
 
     return usersAddressDAO.save(endereco);
@@ -46,21 +41,19 @@ public class UsersAddressService {
 
   @Transactional
   public UsersAddressModel atualizarEndereco(UsersAddressModel endereco) {
-    // Validações
+
     if (endereco == null) {
       throw new IllegalArgumentException("O endereço não pode ser nulo.");
     }
     if (endereco.getId() == null) {
       throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
     }
-    // ... outras validações ...
 
-    return usersAddressDAO.save(endereco); // Usando o método save do JpaRepository para atualizar
+    return usersAddressDAO.save(endereco); 
   }
 
   @Transactional
   public void deletarEndereco(Long enderecoId) {
-    // Validações
     if (enderecoId == null) {
       throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
     }
@@ -69,7 +62,6 @@ public class UsersAddressService {
   }
 
   public List<UsersAddressModel> listarEnderecosDoUsuario(Long userId) {
-    // Validações
     if (userId == null) {
       throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
     }

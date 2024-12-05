@@ -6,12 +6,17 @@ import org.springframework.boot.SpringApplication;
 
 // import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 // import com.clienteservidor.animeserver.animeserver.dao.userdao.UserDAOImpl;
 // import com.clienteservidor.animeserver.animeserver.models.UserModel;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
+@EntityScan(basePackages = "com.clienteservidor.animeserver.animeserver.models")
+@ComponentScan(basePackages = "com.clienteservidor.*")
+@EnableJpaRepositories(basePackages = "com.clienteservidor.animeserver.animeserver.dao")
 @SpringBootApplication
 @EnableJpaAuditing
 public class AnimeserverApplication {

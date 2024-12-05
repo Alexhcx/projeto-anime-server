@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clienteservidor.animeserver.animeserver.dto.OrderDTO;
+import com.clienteservidor.animeserver.animeserver.dto.ProductOrderDTO;
 import com.clienteservidor.animeserver.animeserver.models.OrdersModel;
 import com.clienteservidor.animeserver.animeserver.models.PaymentModel;
 import com.clienteservidor.animeserver.animeserver.models.ProductModel;
@@ -22,16 +24,17 @@ import com.clienteservidor.animeserver.animeserver.services.OrdersService;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping("/anime/api/pedidos") // Defina o caminho base para os endpoints de pedidos
+@RequestMapping("/anime/api/pedidos")
 public class OrdersController {
 
   @Autowired
   private OrdersService orderService;
 
   @PostMapping
-  public ResponseEntity<OrdersModel> criarPedidoComPagamento(@RequestBody OrdersModel pedido,
-      @RequestBody PaymentModel pagamento) {
+  public ResponseEntity<OrdersModel> criarPedidoComPagamento(@RequestBody OrderDTO orderDTO) {
     try {
+      OrdersModel pedido = orderDTO.order();
+      PaymentModel pagamento = orderDTO.payment();
       OrdersModel createdOrder = orderService.criarPedidoComPagamento(pedido, pagamento);
       return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     } catch (IllegalArgumentException e) {
@@ -92,19 +95,21 @@ public class OrdersController {
 
   @PostMapping("/{orderId}/produtos")
   public ResponseEntity<Void> adicionarProdutosAoPedido(@PathVariable Long orderId,
-      @RequestBody List<ProductModel> produtos) {
+      @RequestBody List<ProductOrderDTO> produtos) { // Receber List<ProductOrderDTO>
     try {
       orderService.adicionarProdutosAoPedido(orderId, produtos);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
   }
 
   @DeleteMapping("/{orderId}/produtos")
-  public ResponseEntity<Void> removerProdutosDoPedido(@PathVariable Long orderId, @RequestBody List<Long> productIds) {
+  public ResponseEntity<Void> removerProdutosDoPedido(@PathVariable Long orderId,
+      @RequestBody List<ProductOrderDTO> produtos) {
     try {
-      orderService.removerProdutosDoPedido(orderId, productIds);
+      orderService.removerProdutosDoPedido(orderId, produtos);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -1,8 +1,11 @@
 package com.clienteservidor.animeserver.animeserver.services;
 
 import com.clienteservidor.animeserver.animeserver.dao.OrdersDAO;
+import com.clienteservidor.animeserver.animeserver.dao.OrdersProductsDAO;
 import com.clienteservidor.animeserver.animeserver.dao.PaymentDAO;
+import com.clienteservidor.animeserver.animeserver.dto.ProductOrderDTO;
 import com.clienteservidor.animeserver.animeserver.models.OrdersModel;
+import com.clienteservidor.animeserver.animeserver.models.OrdersProductsModel;
 import com.clienteservidor.animeserver.animeserver.models.PaymentModel;
 import com.clienteservidor.animeserver.animeserver.models.ProductModel;
 
@@ -22,6 +25,9 @@ public class OrdersService {
   private OrdersDAO ordersDAO;
 
   @Autowired
+  private OrdersProductsDAO ordersProductsDAO;
+
+  @Autowired
   private PaymentDAO paymentDAO;
 
   @Transactional
@@ -36,7 +42,7 @@ public class OrdersService {
   }
 
   @Transactional
-  public void adicionarProdutosAoPedido(Long orderId, List<ProductModel> produtos) {
+  public void adicionarProdutosAoPedido(Long orderId, List<ProductOrderDTO> produtos) {
 
     if (orderId == null) {
       throw new IllegalArgumentException("O ID do pedido não pode ser nulo.");
@@ -45,23 +51,45 @@ public class OrdersService {
       throw new IllegalArgumentException("A lista de produtos não pode ser nula ou vazia.");
     }
 
-    for (ProductModel produto : produtos) {
-      ordersDAO.addProductToOrder(orderId, produto.getId());
+    for (ProductOrderDTO produto : produtos) {
+      ordersDAO.addProductToOrder(orderId, produto.getId(), produto.getQtdProdutos()); // Usar a qtdProduto do DTO
     }
   }
 
   @Transactional
-  public void removerProdutosDoPedido(Long orderId, List<Long> productIds) {
+  public void removerProdutosDoPedido(Long orderId, List<ProductOrderDTO> produtos) {
 
     if (orderId == null) {
       throw new IllegalArgumentException("O ID do pedido não pode ser nulo.");
     }
-    if (productIds == null || productIds.isEmpty()) {
-      throw new IllegalArgumentException("A lista de IDs de produtos não pode ser nula ou vazia.");
+    if (produtos == null || produtos.isEmpty()) {
+      throw new IllegalArgumentException("A lista de produtos não pode ser nula ou vazia.");
     }
 
-    for (Long productId : productIds) {
-      ordersDAO.removeProductFromOrder(orderId, productId);
+    for (ProductOrderDTO produtoDTO : produtos) {
+      Long productId = produtoDTO.getId();
+      Long qtdRemover = produtoDTO.getQtdProdutos(); // Corrigido: usar getQtdProduto()
+
+      // Buscar o registro na tabela orders_products
+      OrdersProductsModel orderProduct = ordersDAO.findOrdersProductsByOrderIdAndProductId(orderId, productId);
+
+      if (orderProduct != null) {
+        Long qtdAtual = orderProduct.getQtdProduto();
+
+        if (qtdRemover >= qtdAtual) {
+          // Remover o registro da tabela orders_products
+          ordersDAO.removeProductFromOrder(orderId, productId);
+        } else {
+          // Atualizar a quantidade na tabela orders_products
+          orderProduct.setQtdProduto(qtdAtual - qtdRemover);
+
+          // Salvar o orderProduct atualizado usando o ordersProductsDAO
+          ordersProductsDAO.save(orderProduct);
+        }
+      } else {
+        // Produto não encontrado no pedido, lançar exceção ou retornar erro
+        throw new EntityNotFoundException("Produto com ID " + productId + " não encontrado no pedido " + orderId);
+      }
     }
   }
 
