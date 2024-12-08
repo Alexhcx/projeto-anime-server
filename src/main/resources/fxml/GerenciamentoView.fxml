@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="gridView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clienteservidor.animeserver.animeserver.view.controllers.UsersViewController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="30.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.rowIndex="1" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.rowIndex="2" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.rowIndex="3" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.rowIndex="4" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <ImageView fx:id="logoAnimeverse" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+         <effect>
+            <InnerShadow />
+         </effect>
+         <image>
+            <Image url="@../images/Animeverse.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="mainTitleLabel" text="SISTEMA DE GERENCIAMENTO" GridPane.columnIndex="6" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Roboto" size="35.0" />
+         </font>
+      </Label>
+      <TabPane fx:id="tablePane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="4" GridPane.columnSpan="9" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+        <tabs>
+          <Tab text="Usuários">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableUsuariosView" prefHeight="461.0" prefWidth="920.0">
+                           <columns>
+                              <TableColumn prefWidth="45.0" text="ID" />
+                              <TableColumn prefWidth="150.0" text="NOME" />
+                              <TableColumn prefWidth="75.0" text="EMAIL" />
+                              <TableColumn prefWidth="79.0" text="CPF" />
+                              <TableColumn prefWidth="100.0" text="PASSWORD" />
+                              <TableColumn prefWidth="72.0" text="SEXO" />
+                              <TableColumn prefWidth="78.0" text="TELEFONE" />
+                              <TableColumn prefWidth="125.0" text="DATA NASCIMENTO" />
+                              <TableColumn prefWidth="84.0" text="CRIADO EM" />
+                              <TableColumn prefWidth="119.0" text="ATUALIZADO EM" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="End. Usuários">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tabUsuariosEnderecosView" prefHeight="461.0" prefWidth="920.0">
+                           <columns>
+                              <TableColumn prefWidth="45.0" text="ID" />
+                              <TableColumn prefWidth="75.0" text="ID USUARIO" />
+                              <TableColumn prefWidth="146.0" text="LOGRADOURO" />
+                              <TableColumn prefWidth="78.0" text="NUMERO" />
+                              <TableColumn prefWidth="79.0" text="BAIRRO" />
+                              <TableColumn prefWidth="100.0" text="CIDADE" />
+                              <TableColumn prefWidth="72.0" text="ESTADO" />
+                              <TableColumn prefWidth="125.0" text="COMPLEMENTO" />
+                              <TableColumn prefWidth="84.0" text="REFERENCIA" />
+                              <TableColumn prefWidth="75.0" text="CRIADO EM" />
+                              <TableColumn prefWidth="119.0" text="ATUALIZADO EM" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Funcionarios">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableFuncionariosView" prefHeight="461.0" prefWidth="920.0">
+                           <columns>
+                              <TableColumn prefWidth="45.0" text="ID" />
+                              <TableColumn prefWidth="150.0" text="NOME" />
+                              <TableColumn prefWidth="75.0" text="EMAIL" />
+                              <TableColumn prefWidth="79.0" text="CPF" />
+                              <TableColumn prefWidth="100.0" text="PASSWORD" />
+                              <TableColumn prefWidth="72.0" text="SEXO" />
+                              <TableColumn prefWidth="78.0" text="TELEFONE" />
+                              <TableColumn prefWidth="125.0" text="DATA NASCIMENTO" />
+                              <TableColumn prefWidth="84.0" text="CRIADO EM" />
+                              <TableColumn prefWidth="119.0" text="ATUALIZADO EM" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="End. Funcionarios">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableFuncionariosEnderecosView" prefHeight="461.0" prefWidth="920.0">
+                           <columns>
+                              <TableColumn prefWidth="45.0" text="ID" />
+                              <TableColumn prefWidth="75.0" text="ID USUARIO" />
+                              <TableColumn prefWidth="146.0" text="LOGRADOURO" />
+                              <TableColumn prefWidth="78.0" text="NUMERO" />
+                              <TableColumn prefWidth="79.0" text="BAIRRO" />
+                              <TableColumn prefWidth="100.0" text="CIDADE" />
+                              <TableColumn prefWidth="72.0" text="ESTADO" />
+                              <TableColumn prefWidth="125.0" text="COMPLEMENTO" />
+                              <TableColumn prefWidth="84.0" text="REFERENCIA" />
+                              <TableColumn prefWidth="75.0" text="CRIADO EM" />
+                              <TableColumn prefWidth="119.0" text="ATUALIZADO EM" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="2" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.rowIndex="5" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Region disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+   </children>
+   <effect>
+      <DropShadow />
+   </effect>
+</GridPane>
