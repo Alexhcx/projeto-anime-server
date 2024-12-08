@@ -1,14 +1,14 @@
 package com.clienteservidor.animeserver.animeserver.services;
 
-import com.clienteservidor.animeserver.animeserver.dao.UsersDAO;
-import com.clienteservidor.animeserver.animeserver.models.UserModel;
-
-import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.clienteservidor.animeserver.animeserver.dao.UsersDAO;
+import com.clienteservidor.animeserver.animeserver.models.UserModel;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UsersService {
@@ -33,7 +33,7 @@ public class UsersService {
     if (usersDAO.findByCpf(user.getCpf()).isPresent()) {
       throw new IllegalArgumentException("Já existe um usuário com este CPF.");
     }
-    return usersDAO.save(user); // Usando o método save do JpaRepository
+    return usersDAO.save(user);
   }
 
   public UserModel buscarUsuarioPorId(Long id) {
@@ -42,7 +42,7 @@ public class UsersService {
       throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
     }
 
-    return usersDAO.findById(id) // Usando o método findById do JpaRepository
+    return usersDAO.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + id));
   }
 
@@ -54,9 +54,8 @@ public class UsersService {
     if (user.getId() == null) {
       throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
     }
-    // ... outras validações ...
 
-    return usersDAO.save(user); // Usando o método save do JpaRepository para atualizar
+    return usersDAO.save(user);
   }
 
   public void deletarUsuario(Long id) {
@@ -65,10 +64,10 @@ public class UsersService {
       throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
     }
 
-    usersDAO.deleteById(id); // Usando o método deleteById do JpaRepository
+    usersDAO.deleteById(id);
   }
 
   public List<UserModel> mostrarTodosOsUsuarios() {
-    return usersDAO.findAll(); // Usando o método findAll do JpaRepository
+    return usersDAO.findAll();
   }
 }

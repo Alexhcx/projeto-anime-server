@@ -1,8 +1,6 @@
 package com.clienteservidor.animeserver.animeserver;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,22 +73,5 @@ public class ReportUtils {
 
     return JasperExportManager.exportReportToPdf(impressoraJasper);
   }
-
-  // @SuppressWarnings({"unchecked","rawtypes"})
-	// public byte[] gerarRelatorioByte(HashMap parametroRelatorio, ServletContext servletContext, String nomeReport, List listaDados) throws Exception {
-		
-	// 	String caminhoPastaImagensReport = servletContext.getRealPath(FOLDER_RELATORIOS);
-	// 	parametroRelatorio.put(PARAMETRO_PASTA_REPORT, caminhoPastaImagensReport + SEPARATOR);
-		
-	// 	ReportJasper jasper = repositoryReportJasper.buscaByName(nomeReport);
-	// 	InputStream inputStream = new ByteArrayInputStream(jasper.getJasper());
-		
-	// 	JasperPrint impressoraJasper = JasperFillManager
-	// 			.fillReport(inputStream,
-	// 			parametroRelatorio, new JRBeanCollectionDataSource(listaDados));
-		
-	// 	return JasperExportManager.exportReportToPdf(impressoraJasper);
-		
-	// }
 
 }

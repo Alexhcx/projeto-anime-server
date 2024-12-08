@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clienteservidor.animeserver.animeserver.dto.OrderDTO;
 import com.clienteservidor.animeserver.animeserver.dto.ProductOrderDTO;
 import com.clienteservidor.animeserver.animeserver.models.OrdersModel;
-import com.clienteservidor.animeserver.animeserver.models.PaymentModel;
 import com.clienteservidor.animeserver.animeserver.models.ProductModel;
 import com.clienteservidor.animeserver.animeserver.services.OrdersService;
 
@@ -28,15 +27,13 @@ import jakarta.persistence.EntityNotFoundException;
 public class OrdersController {
 
   @Autowired
-  private OrdersService orderService;
+  private OrdersService ordersService;
 
   @PostMapping
-  public ResponseEntity<OrdersModel> criarPedidoComPagamento(@RequestBody OrderDTO orderDTO) {
+  public ResponseEntity<OrdersModel> criarPedido(@RequestBody OrderDTO orderDTO) {
     try {
-      OrdersModel pedido = orderDTO.order();
-      PaymentModel pagamento = orderDTO.payment();
-      OrdersModel createdOrder = orderService.criarPedidoComPagamento(pedido, pagamento);
-      return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+      OrdersModel savedOrder = ordersService.criarPedido(orderDTO); // Usando o método do serviço
+      return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -46,7 +43,7 @@ public class OrdersController {
   public ResponseEntity<OrdersModel> atualizarPedido(@PathVariable Long id, @RequestBody OrdersModel pedido) {
     try {
       pedido.setId(id);
-      OrdersModel updatedOrder = orderService.atualizarPedido(pedido);
+      OrdersModel updatedOrder = ordersService.atualizarPedido(pedido);
       return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -56,7 +53,7 @@ public class OrdersController {
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
     try {
-      orderService.deletarPedido(id);
+      ordersService.deletarPedido(id);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -65,13 +62,13 @@ public class OrdersController {
 
   @GetMapping
   public List<OrdersModel> listarTodosOsPedidos() {
-    return orderService.listarTodosOsPedidos();
+    return ordersService.listarTodosOsPedidos();
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<OrdersModel> buscarPedidoPorId(@PathVariable Long id) {
     try {
-      OrdersModel order = orderService.buscarPedidoPorId(id);
+      OrdersModel order = ordersService.buscarPedidoPorId(id);
       return new ResponseEntity<>(order, HttpStatus.OK);
     } catch (IllegalArgumentException | EntityNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -80,28 +77,27 @@ public class OrdersController {
 
   @GetMapping("/usuario/{userId}")
   public List<OrdersModel> buscarPedidosPorUsuarioId(@PathVariable Long userId) {
-    return orderService.buscarPedidosPorUsuarioId(userId);
+    return ordersService.buscarPedidosPorUsuarioId(userId);
   }
 
   @GetMapping("/status/{status}")
   public List<OrdersModel> buscarPedidosPorStatus(@PathVariable String status) {
-    return orderService.buscarPedidosPorStatus(status);
+    return ordersService.buscarPedidosPorStatus(status);
   }
 
   @GetMapping("/{orderId}/produtos")
   public List<ProductModel> buscarProdutosDoPedido(@PathVariable Long orderId) {
-    return orderService.buscarProdutosDoPedido(orderId);
+    return ordersService.buscarProdutosDoPedido(orderId);
   }
 
   @PostMapping("/{orderId}/produtos")
   public ResponseEntity<Void> adicionarProdutosAoPedido(@PathVariable Long orderId,
-      @RequestBody List<ProductOrderDTO> produtos) { // Receber List<ProductOrderDTO>
+      @RequestBody List<ProductOrderDTO> produtos) {
     try {
-      orderService.adicionarProdutosAoPedido(orderId, produtos);
+      ordersService.adicionarProdutosAoPedido(orderId, produtos);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
     }
   }
 
@@ -109,7 +105,7 @@ public class OrdersController {
   public ResponseEntity<Void> removerProdutosDoPedido(@PathVariable Long orderId,
       @RequestBody List<ProductOrderDTO> produtos) {
     try {
-      orderService.removerProdutosDoPedido(orderId, produtos);
+      ordersService.removerProdutosDoPedido(orderId, produtos);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

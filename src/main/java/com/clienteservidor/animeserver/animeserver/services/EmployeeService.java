@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -82,5 +83,9 @@ public class EmployeeService {
 
     public List<EmployeeModel> buscarFuncionarioPorDataNascimento(String dataNascimento) {
         return employeeDAO.findByDataNascimento(dataNascimento);
+    }
+
+    public Optional<EmployeeModel> findByEmail(String email) {
+        return employeeDAO.findByEmail(email);
     }
 }

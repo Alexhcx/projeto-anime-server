@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+
 import com.clienteservidor.animeserver.animeserver.models.OrdersModel;
 import com.clienteservidor.animeserver.animeserver.models.OrdersProductsModel;
 import com.clienteservidor.animeserver.animeserver.models.ProductModel;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface OrdersDAO extends JpaRepository<OrdersModel, Long> {
 
     List<OrdersModel> findByUserId(Long userId);

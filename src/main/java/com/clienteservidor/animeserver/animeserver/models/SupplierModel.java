@@ -7,6 +7,7 @@ import java.util.Set;
 import com.clienteservidor.animeserver.animeserver.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -38,10 +39,13 @@ public class SupplierModel extends Auditable implements Serializable{
   @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
   private Set<ProductModel> products = new HashSet<>();
 
+  @Column(nullable = false)
   private String nome;
 
+  @Column(nullable = false, unique=true)
   private String cnpj;
 
+  @Column(nullable = false, unique=true)
   private String email;
 
   private String telefone;
@@ -59,5 +63,10 @@ public class SupplierModel extends Auditable implements Serializable{
   private String numero;
 
   private String complemento;
+
+  @Override
+  public String toString() {
+      return this.nome;
+  }
 
 }

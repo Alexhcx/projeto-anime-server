@@ -1,8 +1,16 @@
 package com.clienteservidor.animeserver.animeserver.services;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.clienteservidor.animeserver.animeserver.dao.OrdersDAO;
 import com.clienteservidor.animeserver.animeserver.dao.OrdersProductsDAO;
 import com.clienteservidor.animeserver.animeserver.dao.PaymentDAO;
+import com.clienteservidor.animeserver.animeserver.dto.OrderDTO;
 import com.clienteservidor.animeserver.animeserver.dto.ProductOrderDTO;
 import com.clienteservidor.animeserver.animeserver.models.OrdersModel;
 import com.clienteservidor.animeserver.animeserver.models.OrdersProductsModel;
@@ -11,18 +19,17 @@ import com.clienteservidor.animeserver.animeserver.models.ProductModel;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class OrdersService {
 
   @Autowired
   private OrdersDAO ordersDAO;
+
+  @Autowired
+  private UsersService usersService;
+
+  @Autowired
+  private OrdersProductsService ordersProductsService;
 
   @Autowired
   private OrdersProductsDAO ordersProductsDAO;
@@ -31,66 +38,32 @@ public class OrdersService {
   private PaymentDAO paymentDAO;
 
   @Transactional
-  public OrdersModel criarPedidoComPagamento(OrdersModel pedido, PaymentModel pagamento) {
+  public OrdersModel criarPedido(OrderDTO orderDTO) {
+    // Criar o pedido
+    OrdersModel pedido = new OrdersModel();
+    pedido.setUser(usersService.buscarUsuarioPorId(orderDTO.userId()));
+    pedido.setStatus(orderDTO.status());
+    pedido.setValorTotal(orderDTO.valorTotal());
+    pedido.setMetodoEnvio(orderDTO.metodoEnvio());
+    pedido.setCustoEnvio(orderDTO.custoEnvio());
+    pedido.setNumeroRastreamento(orderDTO.numeroRastreamento());
 
     OrdersModel savedOrder = ordersDAO.save(pedido);
 
+    for (ProductOrderDTO produtoDTO : orderDTO.produtos()) {
+      ordersProductsService.adicionarProdutoAoPedido(
+          savedOrder.getId(),
+          produtoDTO.id(),
+          produtoDTO.qtdProdutos());
+    }
+
+    PaymentModel pagamento = new PaymentModel();
+    pagamento.setMetodoPagamento(orderDTO.metodoPagamento());
+    pagamento.setStatusPagamento(orderDTO.statusPagamento());
     pagamento.setOrder(savedOrder);
     paymentDAO.save(pagamento);
 
     return savedOrder;
-  }
-
-  @Transactional
-  public void adicionarProdutosAoPedido(Long orderId, List<ProductOrderDTO> produtos) {
-
-    if (orderId == null) {
-      throw new IllegalArgumentException("O ID do pedido não pode ser nulo.");
-    }
-    if (produtos == null || produtos.isEmpty()) {
-      throw new IllegalArgumentException("A lista de produtos não pode ser nula ou vazia.");
-    }
-
-    for (ProductOrderDTO produto : produtos) {
-      ordersDAO.addProductToOrder(orderId, produto.getId(), produto.getQtdProdutos()); // Usar a qtdProduto do DTO
-    }
-  }
-
-  @Transactional
-  public void removerProdutosDoPedido(Long orderId, List<ProductOrderDTO> produtos) {
-
-    if (orderId == null) {
-      throw new IllegalArgumentException("O ID do pedido não pode ser nulo.");
-    }
-    if (produtos == null || produtos.isEmpty()) {
-      throw new IllegalArgumentException("A lista de produtos não pode ser nula ou vazia.");
-    }
-
-    for (ProductOrderDTO produtoDTO : produtos) {
-      Long productId = produtoDTO.getId();
-      Long qtdRemover = produtoDTO.getQtdProdutos(); // Corrigido: usar getQtdProduto()
-
-      // Buscar o registro na tabela orders_products
-      OrdersProductsModel orderProduct = ordersDAO.findOrdersProductsByOrderIdAndProductId(orderId, productId);
-
-      if (orderProduct != null) {
-        Long qtdAtual = orderProduct.getQtdProduto();
-
-        if (qtdRemover >= qtdAtual) {
-          // Remover o registro da tabela orders_products
-          ordersDAO.removeProductFromOrder(orderId, productId);
-        } else {
-          // Atualizar a quantidade na tabela orders_products
-          orderProduct.setQtdProduto(qtdAtual - qtdRemover);
-
-          // Salvar o orderProduct atualizado usando o ordersProductsDAO
-          ordersProductsDAO.save(orderProduct);
-        }
-      } else {
-        // Produto não encontrado no pedido, lançar exceção ou retornar erro
-        throw new EntityNotFoundException("Produto com ID " + productId + " não encontrado no pedido " + orderId);
-      }
-    }
   }
 
   public OrdersModel buscarPedidoPorId(Long id) {
@@ -153,5 +126,48 @@ public class OrdersService {
     }
 
     ordersDAO.deleteById(id);
+  }
+
+  @Transactional
+  public void adicionarProdutosAoPedido(Long orderId, List<ProductOrderDTO> produtos) {
+    if (orderId == null) {
+      throw new IllegalArgumentException("O ID do pedido não pode ser nulo.");
+    }
+    if (produtos == null || produtos.isEmpty()) {
+      throw new IllegalArgumentException("A lista de produtos não pode ser nula ou vazia.");
+    }
+
+    for (ProductOrderDTO produto : produtos) {
+      ordersProductsService.adicionarProdutoAoPedido(orderId, produto.id(), produto.qtdProdutos());
+    }
+  }
+
+  @Transactional
+  public void removerProdutosDoPedido(Long orderId, List<ProductOrderDTO> produtos) {
+    if (orderId == null) {
+      throw new IllegalArgumentException("O ID do pedido não pode ser nulo.");
+    }
+    if (produtos == null || produtos.isEmpty()) {
+      throw new IllegalArgumentException("A lista de produtos não pode ser nula ou vazia.");
+    }
+
+    for (ProductOrderDTO produtoDTO : produtos) {
+      Long productId = produtoDTO.id();
+      Long qtdRemover = produtoDTO.qtdProdutos();
+
+      OrdersProductsModel orderProduct = ordersProductsDAO.findByOrderIdAndProductId(orderId, productId)
+          .orElseThrow(() -> new EntityNotFoundException(
+              "Associação entre pedido e produto não encontrada para orderId=" + orderId +
+                  " e productId=" + productId));
+
+      Long qtdAtual = orderProduct.getQtdProduto();
+
+      if (qtdRemover >= qtdAtual) {
+        ordersProductsDAO.delete(orderProduct);
+      } else {
+        orderProduct.setQtdProduto(qtdAtual - qtdRemover);
+        ordersProductsDAO.save(orderProduct);
+      }
+    }
   }
 }

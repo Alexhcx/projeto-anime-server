@@ -1,8 +1,16 @@
 package com.clienteservidor.animeserver.animeserver.dto;
 
-import com.clienteservidor.animeserver.animeserver.models.OrdersModel;
-import com.clienteservidor.animeserver.animeserver.models.PaymentModel;
+import java.util.List;
 
-public record OrderDTO(OrdersModel order, PaymentModel payment) {
-
+public record OrderDTO(
+        Long userId,
+        String status,
+        String valorTotal,
+        String metodoEnvio,
+        String custoEnvio,
+        String numeroRastreamento,
+        List<ProductOrderDTO> produtos,
+        String metodoPagamento,
+        String statusPagamento
+) {
 }
