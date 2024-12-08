@@ -1383,7 +1383,7 @@ public class GerenciamentoViewController {
                 throw new IllegalArgumentException("Nenhum relatório selecionado.");
             }
 
-            String endpointUrl = "http://localhost:8080/relatorios/gerar?nomeRelatorio=" + nomeRelatorio
+            String endpointUrl = "http://localhost:8080/https:/anime/api/relatorios/gerar?nomeRelatorio=" + nomeRelatorio
                     + "&tipoRelatorio=pdf";
 
             exibirRelatorioEmPopup(endpointUrl);
@@ -1398,8 +1398,6 @@ public class GerenciamentoViewController {
         Stage primaryStage = new Stage();
 
         PDFDisplayer displayer = new PDFDisplayer();
-
-        displayer.executeScript("document.getElementById('secondaryToolbarToggle').style.backgroundColor = 'blue';");
 
         Scene scene = new Scene(displayer.toNode());
         scene.setFill(Color.BLACK);

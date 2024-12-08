@@ -20,7 +20,7 @@ import com.clienteservidor.animeserver.animeserver.services.UsersAddressService;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping("anime/api/addresses")
+@RequestMapping("anime/api/users/addresses")
 public class UsersAddressController {
 
     @Autowired

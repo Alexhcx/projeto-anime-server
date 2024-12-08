@@ -17,7 +17,7 @@ import com.clienteservidor.animeserver.animeserver.ReportUtils;
 import jakarta.servlet.ServletContext;
 
 @Controller
-@RequestMapping("/relatorios")
+@RequestMapping("/anime/api/relatorios")
 public class ReportController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class ReportController {
     @Autowired
     private ServletContext servletContext;
 
-    @GetMapping("/gerar") // https://localhost:8080/relatorios/gerar?nomeRelatorio=Relatorio-produtos-modelo&tipoRelatorio=pdf
+    @GetMapping("/gerar") // https://localhost:8080/anime/api/relatorios/gerar?nomeRelatorio=Relatorio-produtos-modelo&tipoRelatorio=pdf
     public ResponseEntity<byte[]> gerarRelatorio(
             @RequestParam String nomeRelatorio,
             @RequestParam(required = false) String tipoRelatorio

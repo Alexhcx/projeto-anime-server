@@ -1,6 +1,7 @@
 package com.clienteservidor.animeserver.animeserver.view.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import com.clienteservidor.animeserver.animeserver.models.EmployeeModel;
@@ -61,7 +62,7 @@ public class MainController {
             EmployeeModel employee = employeeService.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Funcionário não encontrado."));
 
-            if (!employee.getPassword().equals(password)) {
+            if (!BCrypt.checkpw(password, employee.getPassword())) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Erro");
                 alert.setHeaderText("Senha incorreta");

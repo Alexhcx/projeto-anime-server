@@ -6,6 +6,7 @@ import com.clienteservidor.animeserver.animeserver.models.EmployeeModel;
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public class EmployeeService {
         if (employeeDAO.findByCpf(funcionario.getCpf()).isPresent()) {
             throw new IllegalArgumentException("Já existe um funcionário com este CPF.");
         }
+
+        String senhaCriptografada = BCrypt.hashpw(funcionario.getPassword(), BCrypt.gensalt());
+        funcionario.setPassword(senhaCriptografada);
 
         return employeeDAO.save(funcionario);
     }
