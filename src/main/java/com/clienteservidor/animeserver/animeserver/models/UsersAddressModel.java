@@ -51,4 +51,22 @@ public class UsersAddressModel extends Auditable implements Serializable{
 
   private String referencia;
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UsersAddressModel{");
+        sb.append("id=").append(id);
+        sb.append(", user=").append(user);
+        sb.append(", cep=").append(cep);
+        sb.append(", logradouro=").append(logradouro);
+        sb.append(", bairro=").append(bairro);
+        sb.append(", cidade=").append(cidade);
+        sb.append(", estado=").append(estado);
+        sb.append(", numero=").append(numero);
+        sb.append(", complemento=").append(complemento);
+        sb.append(", referencia=").append(referencia);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

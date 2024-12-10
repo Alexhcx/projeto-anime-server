@@ -17,10 +17,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -60,4 +59,22 @@ public class ProductModel extends Auditable implements Serializable {
 
   @Column(nullable = true, columnDefinition = "TEXT[]")
   private String[] imagens;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ProductModel{");
+        sb.append("id=").append(id);
+        sb.append(", orders=").append(orders);
+        sb.append(", supplier=").append(supplier);
+        sb.append(", nome=").append(nome);
+        sb.append(", descricao=").append(descricao);
+        sb.append(", preco=").append(preco);
+        sb.append(", qtdEstoque=").append(qtdEstoque);
+        sb.append(", imagens=").append(imagens);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 }

@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.clienteservidor.animeserver.animeserver.dao.UsersAddressDAO;
-import com.clienteservidor.animeserver.animeserver.dao.UsersDAO;
-import com.clienteservidor.animeserver.animeserver.models.UserModel;
 import com.clienteservidor.animeserver.animeserver.models.UsersAddressModel;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -19,25 +16,16 @@ public class UsersAddressService {
   @Autowired
   private UsersAddressDAO usersAddressDAO;
 
-  @Autowired
-  private UsersDAO usersDAO;
+  // @Autowired
+  // private UsersDAO usersDAO;
 
   @Transactional
-  public UsersAddressModel criarEndereco(Long userId, UsersAddressModel endereco) {
-
-    if (userId == null) {
-      throw new IllegalArgumentException("O ID do usuário não pode ser nulo.");
-    }
+public UsersAddressModel criarEndereco(UsersAddressModel endereco) { 
     if (endereco == null) {
-      throw new IllegalArgumentException("O endereço não pode ser nulo.");
+        throw new IllegalArgumentException("O endereço não pode ser nulo.");
     }
-    UserModel user = usersDAO.findById(userId)
-        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
-
-    endereco.setUser(user);
-
     return usersAddressDAO.save(endereco);
-  }
+}
 
   @Transactional
   public UsersAddressModel atualizarEndereco(UsersAddressModel endereco) {
@@ -49,7 +37,7 @@ public class UsersAddressService {
       throw new IllegalArgumentException("O ID do endereço não pode ser nulo.");
     }
 
-    return usersAddressDAO.save(endereco); 
+    return usersAddressDAO.save(endereco);
   }
 
   @Transactional

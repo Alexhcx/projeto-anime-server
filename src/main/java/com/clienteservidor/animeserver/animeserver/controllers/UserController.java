@@ -14,10 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clienteservidor.animeserver.animeserver.dto.LoginResponseDTO;
+import com.clienteservidor.animeserver.animeserver.dto.UserEnderecoDTO;
+import com.clienteservidor.animeserver.animeserver.dto.UserLoginDTO;
 import com.clienteservidor.animeserver.animeserver.models.UserModel;
+import com.clienteservidor.animeserver.animeserver.models.UsersAddressModel;
+import com.clienteservidor.animeserver.animeserver.services.UsersAddressService;
 import com.clienteservidor.animeserver.animeserver.services.UsersService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("anime/api/users")
@@ -26,6 +32,48 @@ public class UserController {
     @Autowired
     private UsersService userService;
 
+    @Autowired
+    private UsersAddressService usersAddressService;
+
+    @Transactional
+    @PostMapping("/endereco/cadastrar")
+    public ResponseEntity<?> cadastrarUsuarioComEndereco(@RequestBody UserEnderecoDTO userEnderecoDTO) {
+        try {
+            UsersAddressModel endereco = new UsersAddressModel();
+            endereco.setCep(userEnderecoDTO.cep());
+            endereco.setLogradouro(userEnderecoDTO.logradouro());
+            endereco.setNumero(userEnderecoDTO.numero());
+            endereco.setBairro(userEnderecoDTO.bairro());
+            endereco.setCidade(userEnderecoDTO.cidade());
+            endereco.setEstado(userEnderecoDTO.estado());
+            endereco.setComplemento(userEnderecoDTO.complemento());
+            endereco.setReferencia(userEnderecoDTO.referencia());
+
+            UserModel user = new UserModel();
+            user.setNome(userEnderecoDTO.nome());
+            user.setCpf(userEnderecoDTO.cpf());
+            user.setSexo(userEnderecoDTO.sexo());
+            user.setEmail(userEnderecoDTO.email());
+            user.setPassword(userEnderecoDTO.password());
+            user.setDataNascimento(userEnderecoDTO.dataNascimento());
+            user.setTelefone(userEnderecoDTO.telefone());
+            UserModel createdUser = userService.cadastrarUsuario(user); // Salva o usuário
+
+            // 3. Associa o usuário ao endereço
+            endereco.setUser(createdUser); // Use o createdUser (já salvo)
+            createdUser.setEndereco(endereco);
+
+            // 4. Salva o endereço no banco de dados
+            UsersAddressModel enderecoCriado = usersAddressService.criarEndereco(endereco);
+
+            // ... (código para imprimir logs) ...
+
+            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<UserModel> cadastrarUsuario(@RequestBody UserModel user) {
         try {
@@ -33,6 +81,30 @@ public class UserController {
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody UserLoginDTO loginDTO) {
+        try {
+            String email = loginDTO.email();
+            String password = loginDTO.password();
+
+            UserModel user = userService.buscarUsuarioPorEmail(email);
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            if (!userService.verificarSenha(user, password)) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            LoginResponseDTO loginResponse = new LoginResponseDTO(user.getId(), user.getNome());
+
+            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

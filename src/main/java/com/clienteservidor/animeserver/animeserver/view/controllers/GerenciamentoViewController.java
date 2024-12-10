@@ -267,7 +267,7 @@ public class GerenciamentoViewController {
 
         gerarRelatorioButton.setOnAction(event -> gerarRelatorio());
 
-        List<String> nomesRelatorios = Arrays.asList("Relatorio-produtos-modelo", "Relatorio-usuarios-modelo","Relatorio-funcionarios-modelo", "Relatorio-fornecedores-modelo");
+        List<String> nomesRelatorios = Arrays.asList("Relatorio-produtos-modelo", "Relatorio-usuarios-modelo","Relatorio-funcionarios-modelo");
         relatorioComboMenu.setItems(FXCollections.observableArrayList(nomesRelatorios));
 
         adicionarMenuContextoDeletar(tableUsuariosView, usersService::deletarUsuario);
@@ -1383,7 +1383,7 @@ public class GerenciamentoViewController {
                 throw new IllegalArgumentException("Nenhum relatório selecionado.");
             }
 
-            String endpointUrl = "http://localhost:8080/https:/anime/api/relatorios/gerar?nomeRelatorio=" + nomeRelatorio
+            String endpointUrl = "http://localhost:8080/anime/api/relatorios/gerar?nomeRelatorio=" + nomeRelatorio
                     + "&tipoRelatorio=pdf";
 
             exibirRelatorioEmPopup(endpointUrl);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.clienteservidor.animeserver.animeserver.dao.UsersDAO;
 import com.clienteservidor.animeserver.animeserver.models.UserModel;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service

@@ -39,5 +39,6 @@ public class OrdersProductsModel implements Serializable {
     @JoinColumn(name = "product_id", nullable = false)
     private ProductModel product;
 
+    // private Long qtdProduto;
     private Long qtdProduto;
 }

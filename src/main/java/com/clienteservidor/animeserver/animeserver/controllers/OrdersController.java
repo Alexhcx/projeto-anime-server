@@ -31,10 +31,12 @@ public class OrdersController {
 
   @PostMapping
   public ResponseEntity<OrdersModel> criarPedido(@RequestBody OrderDTO orderDTO) {
+    System.out.println(orderDTO);
     try {
-      OrdersModel savedOrder = ordersService.criarPedido(orderDTO); // Usando o método do serviço
+      OrdersModel savedOrder = ordersService.criarPedido(orderDTO);
       return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
     } catch (IllegalArgumentException e) {
+
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }

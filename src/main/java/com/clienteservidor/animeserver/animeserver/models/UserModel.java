@@ -17,8 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -40,7 +40,7 @@ public class UserModel extends Auditable implements Serializable {
   private Set<UsersAddressModel> address = new HashSet<>();
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
   private Set<OrdersModel> orders = new HashSet<>();
 
   @Column(nullable = false)
@@ -75,5 +75,9 @@ public class UserModel extends Auditable implements Serializable {
         ", telefone='" + telefone + '\'' +
         '}';
   }
+
+  public void setEndereco(UsersAddressModel endereco) {
+    this.address.add(endereco);
+}
 
 }
