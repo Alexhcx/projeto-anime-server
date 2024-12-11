@@ -102,7 +102,7 @@ public class UsersService {
       throw new IllegalArgumentException("A senha não pode ser vazia.");
     }
 
-    String senhaCriptografada = user.getPassword(); // Assumindo que a senha é armazenada como hash no banco de dados
+    String senhaCriptografada = user.getPassword(); 
 
     return BCrypt.checkpw(password, senhaCriptografada);
   }

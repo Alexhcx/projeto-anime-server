@@ -57,16 +57,12 @@ public class UserController {
             user.setPassword(userEnderecoDTO.password());
             user.setDataNascimento(userEnderecoDTO.dataNascimento());
             user.setTelefone(userEnderecoDTO.telefone());
-            UserModel createdUser = userService.cadastrarUsuario(user); // Salva o usuário
+            UserModel createdUser = userService.cadastrarUsuario(user);
 
-            // 3. Associa o usuário ao endereço
-            endereco.setUser(createdUser); // Use o createdUser (já salvo)
+            endereco.setUser(createdUser);
             createdUser.setEndereco(endereco);
 
-            // 4. Salva o endereço no banco de dados
             UsersAddressModel enderecoCriado = usersAddressService.criarEndereco(endereco);
-
-            // ... (código para imprimir logs) ...
 
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {

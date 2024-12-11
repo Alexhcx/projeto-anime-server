@@ -26,7 +26,7 @@ public class ReportController {
     @Autowired
     private ServletContext servletContext;
 
-    @GetMapping("/gerar") // https://localhost:8080/anime/api/relatorios/gerar?nomeRelatorio=Relatorio-produtos-modelo&tipoRelatorio=pdf
+    @GetMapping("/gerar") // http://localhost:8080/anime/api/relatorios/gerar?nomeRelatorio=Relatorio-produtos-modelo&tipoRelatorio=pdf
     public ResponseEntity<byte[]> gerarRelatorio(
             @RequestParam String nomeRelatorio,
             @RequestParam(required = false) String tipoRelatorio

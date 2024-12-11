@@ -35,13 +35,10 @@ public class UsersAddressController {
     public ResponseEntity<UsersAddressModel> criarEndereco(@PathVariable Long userId,
             @RequestBody UsersAddressModel endereco) {
         try {
-            // 1. Busca o usuário pelo ID
-            UserModel user = userService.buscarUsuarioPorId(userId);
 
-            // 2. Associa o usuário ao endereço
+            UserModel user = userService.buscarUsuarioPorId(userId);
             endereco.setUser(user);
 
-            // 3. Salva o endereço usando o UsersAddressService
             UsersAddressModel createdAddress = userAddressService.criarEndereco(endereco);
             return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
         } catch (IllegalArgumentException | EntityNotFoundException e) {
